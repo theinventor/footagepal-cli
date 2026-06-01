@@ -7,13 +7,13 @@ It talks only to the FootagePal JSON API. It does not scrape Rails HTML, read th
 ## Install
 
 ```bash
-go install github.com/theinventor/footagepal-cli@latest
+go install github.com/theinventor/footagepal-cli/cmd/footagepal@latest
 ```
 
 From a checkout:
 
 ```bash
-go build -o footagepal .
+go build -o footagepal ./cmd/footagepal
 ./footagepal --help
 ```
 
