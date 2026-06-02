@@ -28,8 +28,8 @@ func NewRootCmd() *cobra.Command {
 	rootProfile = ""
 	root := &cobra.Command{
 		Use:           "footagepal",
-		Short:         "FootagePal CLI for authenticated media search and downloads",
-		Long:          "footagepal searches FootagePal media metadata and downloads authorized originals using API tokens.",
+		Short:         "FootagePal CLI for authenticated media search, uploads, albums, and downloads",
+		Long:          "footagepal manages employee media handoffs through the FootagePal JSON API using API tokens.",
 		Version:       Version,
 		SilenceUsage:  true,
 		SilenceErrors: true,
@@ -41,6 +41,7 @@ func NewRootCmd() *cobra.Command {
 	root.AddCommand(newAuthCmd())
 	root.AddCommand(newWhoamiCmd())
 	root.AddCommand(newAccountsCmd())
+	root.AddCommand(newAlbumsCmd())
 	root.AddCommand(newMediaCmd())
 
 	return root

@@ -46,7 +46,7 @@ func buildAgentContext(root *cobra.Command) map[string]any {
 		"enums":              enums.InContext,
 		"exit_codes":         exitCodes,
 		"available_profiles": availableProfiles(),
-		"sensitive_values":   []string{"API tokens", "signed download URLs"},
+		"sensitive_values":   []string{"API tokens", "signed download URLs", "signed upload URLs"},
 	}
 }
 

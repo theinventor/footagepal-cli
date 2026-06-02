@@ -8,5 +8,7 @@ var InContext = map[string][]string{
 	"sort":              {"recorded_at", "created_at", "updated_at", "name", "filename"},
 	"direction":         {"asc", "desc"},
 	"download_status":   {"planned", "downloaded", "skipped", "renamed", "overwritten", "failed"},
+	"upload_status":     {"planned", "completed", "failed"},
+	"share_access":      {"public_link"},
 	"credential_source": {"env", "profile"},
 }

@@ -19,6 +19,7 @@ import (
 
 type mediaSearchFlags struct {
 	AccountID   string
+	AlbumID     string
 	Start       string
 	End         string
 	Date        string
@@ -81,6 +82,8 @@ func newMediaCmd() *cobra.Command {
 	c.AddCommand(newMediaSearchCmd())
 	c.AddCommand(newMediaGetCmd())
 	c.AddCommand(newMediaDownloadCmd())
+	c.AddCommand(newMediaUploadCmd())
+	c.AddCommand(newMediaShareURLCmd())
 	return c
 }
 
@@ -107,7 +110,7 @@ func newMediaSearchCmd() *cobra.Command {
 			return printJSON(out, result)
 		},
 	}
-	addSearchFlags(c, &flags)
+	addSearchFlags(c, &flags, true)
 	c.Flags().BoolVar(&human, "human", false, "render a compact human table instead of JSON")
 	return c
 }
@@ -197,7 +200,7 @@ or --yes so large downloads are deliberate.`,
 			return printJSON(cmd.OutOrStdout(), payload)
 		},
 	}
-	addSearchFlags(c, &flags)
+	addSearchFlags(c, &flags, true)
 	c.Flags().StringVar(&outDir, "out", "", "output directory for downloaded files (required)")
 	c.Flags().StringVar(&collision, "collision", string(dl.CollisionSkip), "collision policy: skip, rename, or overwrite")
 	c.Flags().BoolVar(&dryRun, "dry-run", false, "plan downloads without fetching signed URLs to disk")
@@ -208,8 +211,11 @@ or --yes so large downloads are deliberate.`,
 	return c
 }
 
-func addSearchFlags(c *cobra.Command, flags *mediaSearchFlags) {
+func addSearchFlags(c *cobra.Command, flags *mediaSearchFlags, includeAlbumID bool) {
 	c.Flags().StringVar(&flags.AccountID, "account-id", "", "FootagePal account id")
+	if includeAlbumID {
+		c.Flags().StringVar(&flags.AlbumID, "album-id", "", "restrict results to a visible album id")
+	}
 	c.Flags().StringVar(&flags.Start, "start", "", "recorded_at start timestamp or date")
 	c.Flags().StringVar(&flags.End, "end", "", "recorded_at end timestamp or date")
 	c.Flags().StringVar(&flags.Date, "date", "", "exact recorded_at date (YYYY-MM-DD)")
@@ -240,6 +246,7 @@ func buildSearchQuery(cmd *cobra.Command, flags mediaSearchFlags) (url.Values, e
 		}
 	}
 	set("account_id", flags.AccountID)
+	set("album_id", flags.AlbumID)
 	set("start", flags.Start)
 	set("end", flags.End)
 	set("date", flags.Date)
