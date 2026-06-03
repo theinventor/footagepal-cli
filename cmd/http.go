@@ -37,7 +37,7 @@ func apiStatusError(resp *http.Response, body []byte) error {
 	if bodyText == "" {
 		bodyText = "(empty response body)"
 	}
-	bodyText = client.RedactURL(bodyText)
+	bodyText = redactSensitiveText(client.RedactURL(bodyText))
 	return exitcode.Wrap(
 		exitcode.FromHTTPStatus(resp.StatusCode),
 		fmt.Errorf("HTTP %d from %s: %s", resp.StatusCode, resp.Request.URL.Path, bodyText),
